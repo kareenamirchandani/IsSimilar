@@ -2,30 +2,136 @@ import unittest
 
 from ..algorithm import grading_function
 
+
 class TestGradingFunction(unittest.TestCase):
     """
-        TestCase Class used to test the algorithm.
-        ---
-        Tests are used here to check that the algorithm written 
-        is working as it should. 
-        
-        It's best practise to write these tests first to get a 
-        kind of 'specification' for how your algorithm should 
-        work, and you should run these tests before committing 
-        your code to AWS.
+    TestCase Class used to test the algorithm.
+    ---
+    Tests are used here to check that the algorithm written
+    is working as it should.
 
-        Read the docs on how to use unittest here:
-        https://docs.python.org/3/library/unittest.html
+    It's best practise to write these tests first to get a
+    kind of 'specification' for how your algorithm should
+    work, and you should run these tests before committing
+    your code to AWS.
 
-        Use grading_function() to check your algorithm works 
-        as it should.
+    Read the docs on how to use unittest here:
+    https://docs.python.org/3/library/unittest.html
+
+    Use grading_function() to check your algorithm works
+    as it should.
     """
-    def test_returns_is_correct_true(self):
-        body = {}
+
+    def test_absolute_lower_incorrect(self):
+        body = {
+            "response": 1.40,
+            "answer": 1.48,
+            "params": {"diff_mode": "absolute", "diff": 0.04},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), False)
+
+    def test_absolute_lower_correct(self):
+        body = {
+            "response": 1.46,
+            "answer": 1.48,
+            "params": {"diff_mode": "absolute", "diff": 0.04},
+        }
 
         response = grading_function(body)
 
         self.assertEqual(response.get("is_correct"), True)
+
+    def test_absolute_equal_correct(self):
+        body = {
+            "response": 1.46,
+            "answer": 1.46,
+            "params": {"diff_mode": "absolute", "diff": 0.04},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), True)
+
+    def test_absolute_higher_correct(self):
+        body = {
+            "response": 1.49,
+            "answer": 1.48,
+            "params": {"diff_mode": "absolute", "diff": 0.04},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), True)
+
+    def test_absolute_higher_incorrect(self):
+        body = {
+            "response": 1.54,
+            "answer": 1.48,
+            "params": {"diff_mode": "absolute", "diff": 0.04},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), False)
+
+    def test_relative_lower_incorrect(self):
+        body = {
+            "response": 9.1,
+            "answer": 11.4,
+            "params": {"diff_mode": "relative", "diff": 0.2},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), False)
+
+    def test_relative_lower_correct(self):
+        body = {
+            "response": 10.8,
+            "answer": 11.4,
+            "params": {"diff_mode": "relative", "diff": 0.2},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), True)
+
+    def test_relative_equal_correct(self):
+        body = {
+            "response": 11.4,
+            "answer": 11.4,
+            "params": {"diff_mode": "relative", "diff": 0.2},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), True)
+
+    def test_relative_higher_correct(self):
+        body = {
+            "response": 13.2,
+            "answer": 11.4,
+            "params": {"diff_mode": "relative", "diff": 0.2},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), True)
+
+    def test_relative_higher_incorrect(self):
+        body = {
+            "response": 13.7,
+            "answer": 11.4,
+            "params": {"diff_mode": "relative", "diff": 0.2},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), False)
+
 
 if __name__ == "__main__":
     unittest.main()

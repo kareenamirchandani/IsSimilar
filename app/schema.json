@@ -1,10 +1,19 @@
 {
-    "$schema": "http://json-schema.org/draft/2019-09/schema#",
-    "title": "Generic schema for the data passed to a grading cloud function.",
-    "type": "object",
-    "properties": {
-        "example": {"const": "property"}
-    },
-    "required": ["example"],
-    "additionalProperties": false
+  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+  "title": "Schema for the data passed to the IsSimilar Grading function.",
+  "type": "object",
+  "properties": {
+    "answer": { "type": "number" },
+    "response": { "type": "number" },
+    "params": {
+      "type": "object",
+      "properties": {
+        "diff_mode": { "enum": ["absolute", "relative"] },
+        "diff": { "type": "number" }
+      },
+      "required": ["diff_mode", "diff"]
+    }
+  },
+  "required": ["answer", "response", "params"],
+  "additionalProperties": false
 }

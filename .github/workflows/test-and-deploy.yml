@@ -59,8 +59,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      ECR_REPOSITORY: change-name-here
-      LAMBDA_FUNCTION_NAME: ChangeNameHere
+      ECR_REPOSITORY: is-similar
+      LAMBDA_FUNCTION_NAME: isSimilar
 
     steps:
       - name: Checkout

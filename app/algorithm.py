@@ -19,20 +19,20 @@ def grading_function(body: dict) -> dict:
     to output the grading response.
     """
 
-    diff_mode = body["params"]["diff_mode"]
-    diff = body["params"]["diff"]
     res = body["response"]
     ans = body["answer"]
+    rtol = body.get("params", {}).get("rtol", 0)
+    atol = body.get("params", {}).get("atol", 0)
 
     is_correct = None
     real_diff = None
 
-    if diff_mode == "absolute":
-        is_correct = res >= ans - diff and res <= ans + diff
-        real_diff = res - ans
+    real_diff = abs(res - ans)
+    allowed_diff = atol + rtol * abs(ans)
+    is_correct = real_diff <= allowed_diff
 
-    elif diff_mode == "relative":
-        is_correct = res >= ans * (1 - diff) and res <= ans * (1 + diff)
-        real_diff = (res / ans) - 1
-
-    return {"is_correct": is_correct, "real_diff": real_diff}
+    return {
+        "is_correct": is_correct,
+        "real_diff": real_diff,
+        "allowed_diff": allowed_diff,
+    }

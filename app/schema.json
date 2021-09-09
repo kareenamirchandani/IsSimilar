@@ -8,12 +8,11 @@
     "params": {
       "type": "object",
       "properties": {
-        "diff_mode": { "enum": ["absolute", "relative"] },
-        "diff": { "type": "number" }
-      },
-      "required": ["diff_mode", "diff"]
+        "atol": { "type": "number" },
+        "rtol": { "type": "number" }
+      }
     }
   },
-  "required": ["answer", "response", "params"],
+  "required": ["answer", "response"],
   "additionalProperties": false
 }

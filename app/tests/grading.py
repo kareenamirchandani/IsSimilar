@@ -26,7 +26,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 1.40,
             "answer": 1.48,
-            "params": {"diff_mode": "absolute", "diff": 0.04},
+            "params": {"atol": 0.04},
         }
 
         response = grading_function(body)
@@ -37,7 +37,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 1.46,
             "answer": 1.48,
-            "params": {"diff_mode": "absolute", "diff": 0.04},
+            "params": {"atol": 0.04},
         }
 
         response = grading_function(body)
@@ -48,7 +48,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 1.46,
             "answer": 1.46,
-            "params": {"diff_mode": "absolute", "diff": 0.04},
+            "params": {"atol": 0.04},
         }
 
         response = grading_function(body)
@@ -59,7 +59,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 1.49,
             "answer": 1.48,
-            "params": {"diff_mode": "absolute", "diff": 0.04},
+            "params": {"atol": 0.04},
         }
 
         response = grading_function(body)
@@ -70,7 +70,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 1.54,
             "answer": 1.48,
-            "params": {"diff_mode": "absolute", "diff": 0.04},
+            "params": {"atol": 0.04},
         }
 
         response = grading_function(body)
@@ -81,7 +81,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 9.1,
             "answer": 11.4,
-            "params": {"diff_mode": "relative", "diff": 0.2},
+            "params": {"rtol": 0.2},
         }
 
         response = grading_function(body)
@@ -92,7 +92,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 10.8,
             "answer": 11.4,
-            "params": {"diff_mode": "relative", "diff": 0.2},
+            "params": {"rtol": 0.2},
         }
 
         response = grading_function(body)
@@ -103,7 +103,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 11.4,
             "answer": 11.4,
-            "params": {"diff_mode": "relative", "diff": 0.2},
+            "params": {"rtol": 0.2},
         }
 
         response = grading_function(body)
@@ -114,7 +114,7 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 13.2,
             "answer": 11.4,
-            "params": {"diff_mode": "relative", "diff": 0.2},
+            "params": {"rtol": 0.2},
         }
 
         response = grading_function(body)
@@ -125,7 +125,29 @@ class TestGradingFunction(unittest.TestCase):
         body = {
             "response": 13.7,
             "answer": 11.4,
-            "params": {"diff_mode": "relative", "diff": 0.2},
+            "params": {"rtol": 0.2},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), False)
+
+    def test_relative_absolute_correct(self):
+        body = {
+            "response": 1e6,
+            "answer": 1e7,
+            "params": {"rtol": 1e-1, "atol": 8.2e6},
+        }
+
+        response = grading_function(body)
+
+        self.assertEqual(response.get("is_correct"), True)
+
+    def test_relative_absolute_incorrect(self):
+        body = {
+            "response": 1e6,
+            "answer": 2e7,
+            "params": {"rtol": 1e-1, "atol": 8.2e6},
         }
 
         response = grading_function(body)

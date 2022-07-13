@@ -1,8 +1,8 @@
-def grading_function(body: dict) -> dict:
+def evaluation_function(response, answer, params) -> dict:
     """
     Function used to grade a student response.
     ---
-    The handler function passes only one argument to grading_function(),
+    The handler function passes only one argument to evaluation_function(),
     which is a dictionary of the structure of the API request body
     deserialised from JSON.
 
@@ -15,20 +15,18 @@ def grading_function(body: dict) -> dict:
 
     The way you wish to structure you code (all in this function, or
     split into many) is entirely up to you. All that matters are the
-    return types and that grading_function() is the main function used
+    return types and that evaluation_function() is the main function used
     to output the grading response.
     """
 
-    res = body["response"]
-    ans = body["answer"]
-    rtol = body.get("params", {}).get("rtol", 0)
-    atol = body.get("params", {}).get("atol", 0)
+    rtol = params.get("rtol", 0)
+    atol = params.get("atol", 0)
 
     is_correct = None
     real_diff = None
 
-    real_diff = abs(res - ans)
-    allowed_diff = atol + rtol * abs(ans)
+    real_diff = abs(response - answer)
+    allowed_diff = atol + rtol * abs(answer)
     is_correct = real_diff <= allowed_diff
 
     return {

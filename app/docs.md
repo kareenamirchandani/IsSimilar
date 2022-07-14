@@ -45,4 +45,3 @@ Real difference between the given answer and response
 Allowed difference between answer and response, calculated using the supplied `atol` and `rtol` parameters
 
 
-## Examples
